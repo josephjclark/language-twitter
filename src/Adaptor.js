@@ -1,8 +1,5 @@
 /** @module Adaptor */
 import {
-  execute,
-  composeNextState,
-  expandReferences,
   http,
 } from '@openfn/language-common';
 
@@ -84,18 +81,4 @@ export function fetchTweets(userName) {
 }
 
 // What functions do you want from the common adaptor?
-export {
-  execute,
-  alterState,
-  dataPath,
-  dataValue,
-  dateFns,
-  each,
-  field,
-  fields,
-  fn,
-  http,
-  lastReferenceValue,
-  merge,
-  sourceValue,
-} from '@openfn/language-common';
+export * from '@openfn/language-common';
