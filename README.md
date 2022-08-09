@@ -1,6 +1,8 @@
 # language-template [<img src="https://avatars2.githubusercontent.com/u/9555108?s=200&v=4)" alt="alt text" height="20">](https://www.openfn.org) [![Build Status](https://travis-ci.org/OpenFn/language-template.svg?branch=master)](https://travis-ci.org/OpenFn/language-template)
 
-An OpenFn **_adaptor_** for building integration jobs for use with the \_\_\_\_ API.
+An EXPERIMENTAL OpenFn **_adaptor_** for building integration jobs for use with the \_\_\_\_ API.
+
+Mostly a learning project at this point.
 
 ## Documentation
 
@@ -13,19 +15,14 @@ An OpenFn **_adaptor_** for building integration jobs for use with the \_\_\_\_ 
 
 ```json
 {
-  "username": "taylor@openfn.org",
-  "password": "supersecret"
+  "key": "<twitter API key>"
 }
 ```
 
-#### sample expression using operation
+#### Example
 
 ```js
-post({
-  "url": "api/v1/forms/data/wide/json/formId",
-  "body": {"a":1}
-  "headers": {}
-})
+fetchTweets("jjc_uk")
 ```
 
 ## Development
