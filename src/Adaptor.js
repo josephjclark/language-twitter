@@ -1,5 +1,6 @@
 /** @module Adaptor */
 import {
+  expandReferences,
   http,
 } from '@openfn/language-common';
 
@@ -34,7 +35,7 @@ function request(state, endpoint) {
 // But we'll do like an ensureUserId using hthus
 export function lookupUser(userName) {
   return state => {
-
+    const resolvedUserName = expandReferences(userName)(state);
     if (!state.users) {
        state = {
           ...state,
@@ -43,16 +44,16 @@ export function lookupUser(userName) {
     }
 
     // exit early if the user is defined
-    if (state.users[userName]) {
+    if (state.users[resolvedUserName]) {
       return Promise.resolve(state);
     }
 
-    return request(state, `users/by/username/${userName}`).then(({ id }) => {
+    return request(state, `users/by/username/${resolvedUserName}`).then(({ id }) => {
       return {
         ...state,
         users: {
           ...state.users,
-          [userName]: id
+          [resolvedUserName]: id
         }
       };
     });
@@ -63,20 +64,20 @@ export function lookupUser(userName) {
 // state.data.tweets[userName]
 export function fetchTweets(userName) {
   return state => {
-    return lookupUser(userName)(state).then((state) => {
-      return request(state, `users/${state.users[userName]}/tweets`).then((data) => {
-        return {
+    const resolvedUserName = expandReferences(userName)(state);
+    return lookupUser(resolvedUserName)(state)
+      .then((state) => request(state, `users/${state.users[resolvedUserName]}/tweets`))
+      .then((data) => ({
           ...state,
           data: {
             ...state.data,
             tweets: {
               // ...(state.data.tweets ?? {}),
-              [userName]: data
+              [resolvedUserName]: data
             }
           }
-        }
-      })
-    })
+        })
+      );
   }
 }
 
